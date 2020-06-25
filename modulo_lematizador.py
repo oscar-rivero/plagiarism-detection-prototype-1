@@ -6,7 +6,7 @@ from nltk import word_tokenize
 
 lemmatizer=WordNetLemmatizer()
 
-def lematexto(texto):
+def lematizar(texto):
     
     texto_pl_lemas=[]
     for (w,t) in texto:
@@ -29,10 +29,10 @@ def lematexto(texto):
 
 
 
-def lemas_plagio(plagio):
-    tokens_plagio=word_tokenize(plagio)
+def preparar(texto):
+    tokens_texto=word_tokenize(texto)
     
-    tags_plagio=tagger.tag(tokens_plagio)
+    tags_texto=tagger.tag(tokens_texto)
     
-    return lematexto(tags_plagio)
+    return lematizar(tags_texto)
 

@@ -1,5 +1,5 @@
 """
-etiquetador etiquetas freeling wikicorpus english
+etiquetador wikicorpus english
 """
 
 def universal_tags(tg_sts):
@@ -32,7 +32,7 @@ def universal_tags(tg_sts):
                 tpl.append('PART')
             elif t.lower()=='to':
                 tpl.append('PART')
-            elif t.lower()=='ex':
+            elif t.lower()=='ex': 
                 tpl.append('PRON')                
             elif t.lower()=='wp':
                 tpl.append('PRON')
@@ -113,10 +113,10 @@ from nltk import TrigramTagger
 print("unigram tagger")
 unigram_tagger = UnigramTagger(wiki_train, backoff=affix_tagger)
 
-print("unigram tagger")
+print("bigram  tagger")
 bigram_tagger = BigramTagger(wiki_train, backoff=unigram_tagger)
 
-print("unigram tagger")
+print("trigram tagger")
 trigram_tagger= TrigramTagger(wiki_train, backoff=bigram_tagger)
 
 #creamos el trainer del brilltagger
@@ -135,5 +135,3 @@ output.close()
 wiki_eval = wiki_tagger.evaluate(wiki_test)
 
 print(wiki_eval)
-
-

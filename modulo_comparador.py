@@ -5,7 +5,7 @@ from funciones import elmayor, stopen
 
 from nltk.corpus import wordnet
 
-from modulo_lematizador import lematexto,lemas_plagio
+from modulo_lematizador import lematizar,preparar
 from modulo_cargar_tagger import tagger
 
 import urllib
@@ -42,9 +42,9 @@ def buscar_para(plagio, url):
         
         tags_texto=tagger.tag(tokens_texto)
     
-        lemas_texto=lematexto(tags_texto)
+        lemas_texto=lematizar(tags_texto)
         
-        coinc=[lema for lema in lemas_plagio(plagio) if lema in lemas_texto and lema.lower() not in stopen and lema.isalpha()]
+        coinc_url=[lema for lema in preparar(plagio) if lema in lemas_texto and lema.lower() not in stopen and lema.isalpha()]
     
         paras=textr.split(' \n  \n ')
         
@@ -54,22 +54,22 @@ def buscar_para(plagio, url):
         
         etiq_paras=[tagger.tag(para) for para in token_paras]
         
-        lema_paras=[lematexto(para) for para in etiq_paras]
+        lema_paras=[lematizar(para) for para in etiq_paras]
         
         sets_paras=[set(para) for para in lema_paras]
         
-        set_coinc=set(coinc)
+        set_coinc_url=set(coinc_url)
         
         qs=[]
-        for i,sett in enumerate(sets_paras):
-            q=set_coinc.intersection(sett)
+        for i,set_orig in enumerate(sets_paras):
+            q=set_coinc_url.intersection(set_orig)
             
 
-            set_plag = set(lemas_plagio(plagio))
+            set_plag = set(preparar(plagio))
 
-            lem_dif_orig=sett-set_plag 
+            lem_dif_orig=set_orig-set_plag 
             
-            lem_dif_plag=set_plag-sett
+            lem_dif_plag=set_plag-set_orig
             
 
             #aqui compruebo los sinónimos entre los dos textos
@@ -93,24 +93,49 @@ def buscar_para(plagio, url):
             
             sinonimos_orig = [entrada for entrada in sinonimos_orig if len(entrada[1])>0]
             
-            for plg in sinonimos_plagio:
-                for original in sinonimos_orig:
-                    if plg[0]!=original[0]:
-                        for entrada in original[1]:
+            iguales=q
+            sinonimos=[]
+            
+            for entrada_plg in sinonimos_plagio:
+                for entrada_original in sinonimos_orig:
+                    if entrada_plg[0]!=entrada_original[0]:
+                        for sinonimo in entrada_original[1]:
                             haysin=False
                             seguridad=0
-                            if entrada in plg[1]:
+                            if sinonimo in entrada_plg[1]:
                                 haysin=True
                                 seguridad+=1
                         if haysin==True:
-                            q.add((plg[0], original[0]))
+                            sinonimos.append((entrada_plg[0], entrada_original[0]))
+                            q.add((entrada_plg[0], entrada_original[0]))
             
-            qs.append((len(q),i))
-            grtr=elmayor([q for q,i in qs])
+            qs.append((len(q),i, len(iguales), sinonimos))
+            grtr=elmayor([q for q,i,l,s in qs])
         
         
-        i=[i for q,i in qs if q==grtr][0]
+        i=[i for q,i,l,s in qs if q==grtr][0]
     
+        l=[l for q,i,l,s in qs if q==grtr][0]
+        
+        s=[s for q,i,l,s in qs if q==grtr][0]
+        
+
         para=paras[i]
         
-        return (url, para, grtr)
+        return (url, para, grtr, len(lema_paras[i]), l, s, plagio)
+
+def pprint(coinc):
+    print("La url donde se ha encontrado el texto:", coinc[0])
+    print()
+    print("El párrafo sospechoso:", )
+    print(coinc[-1])
+    print()
+    print("El párrafo que se ha encontrado:",)
+    print(coinc[1])
+    print()
+    print("El número de palabras léxicas originales del párrafo que se ha encontrado:", coinc[3])
+    print("El número de coincidencias lemáticas entre ambos textos:", coinc[4])
+    print("El número de sinónimos:", len(coinc[5]))
+    print("El número de similitudes léxicas entre coincidencias lemáticas y sinónimos:", coinc[2])
+    print("Los sinónimos hallados:", coinc[5])
+    
