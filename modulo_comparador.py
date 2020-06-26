@@ -60,12 +60,19 @@ def buscar_para(plagio, url):
         
         set_coinc_url=set(coinc_url)
         
+        set_plag = set(preparar(plagio))
+        
         qs=[]
         for i,set_orig in enumerate(sets_paras):
-            q=set_coinc_url.intersection(set_orig)
             
-
-            set_plag = set(preparar(plagio))
+            # if len(set_orig)>len(set_plag)*4:
+            #     continue
+            # elif len(set_orig)<len(set_plag)/4:
+            #     continue
+            
+            # else:
+                
+            q=set_coinc_url.intersection(set_orig)
 
             lem_dif_orig=set_orig-set_plag 
             
@@ -83,6 +90,7 @@ def buscar_para(plagio, url):
             
             sinonimos_plagio = [entrada for entrada in sinonimos_plagio if len(entrada[1])>0]
             
+            
             sinonimos_orig=[]
             for nombre in lem_dif_orig:
                 sinonimos=[]
@@ -93,7 +101,7 @@ def buscar_para(plagio, url):
             
             sinonimos_orig = [entrada for entrada in sinonimos_orig if len(entrada[1])>0]
             
-            iguales=q
+            
             sinonimos=[]
             
             for entrada_plg in sinonimos_plagio:
@@ -107,9 +115,8 @@ def buscar_para(plagio, url):
                                 seguridad+=1
                         if haysin==True:
                             sinonimos.append((entrada_plg[0], entrada_original[0]))
-                            q.add((entrada_plg[0], entrada_original[0]))
             
-            qs.append((len(q),i, len(iguales), sinonimos))
+            qs.append((len(q)+len(sinonimos),i, len(q), sinonimos))
             grtr=elmayor([q for q,i,l,s in qs])
         
         

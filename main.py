@@ -6,14 +6,23 @@ y ejecuta un código para dar un ejemplo de detección de plagio.
 """
 from funciones import elmayor
 from modulo_textos import txtsstr
-from modulo_buscador import masfreq
 from modulo_comparador import buscar_para, pprint
 
+cargar=-1
 
+while cargar not in ('s', 'n'):
+    cargar=input("Cargar resultados guardados? s/n")
+if cargar=='s':
+    from modulo_cargar_resultados import resultados
+elif cargar=='n':
+    from modulo_buscador import masfreq as resultados
+
+print("Procesando resultados...")
 total=[]
-for i,text in enumerate(masfreq):
+for i,text in enumerate(resultados):
     para_coinc=[]
     for url in text:
+        print("Comparando texto", i+1, "con", url)
         coinc=buscar_para(txtsstr[i], url)
         para_coinc.append(coinc)
         

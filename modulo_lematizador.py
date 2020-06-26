@@ -25,7 +25,7 @@ def lematizar(texto):
             texto_pl_lemas.append(lemmatizer.lemmatize(w, pos=r))
         else:
             texto_pl_lemas.append(w)
-    return texto_pl_lemas
+    return [w.lower() for w in texto_pl_lemas]
 
 
 
