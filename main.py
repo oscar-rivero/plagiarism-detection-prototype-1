@@ -28,12 +28,17 @@ for i,text in enumerate(resultados):
         
     total.append(para_coinc)
 
+print()
 
 #final=[]
 for i,para_coinc in enumerate(total):
+    print("Texto", i+1,":")
+    print("__________________________________________")
+    print()
     if para_coinc!=None:
         for coinc in para_coinc:
             if coinc!=None:
                 if elmayor([coinc[2] for coinc in para_coinc if coinc!=None])==coinc[2]:
                     pprint(coinc)
+                    print()
                     #final.append((txtsstr[i],coinc[1],coinc[0],coinc[2]), coinc[3])

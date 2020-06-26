@@ -59,4 +59,4 @@ masfreq=[[w for (w,i) in FreqDist(results).most_common(15)] for results in total
 
 output = open('results.pkl', 'wb')
 dump(masfreq, output,-1)
-output.close()
+output.close()  
