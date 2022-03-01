@@ -4,13 +4,13 @@ from modulo_cargar_tagger import tagger
 
 nltk.download('punkt')
 
-sl.write("# Prototipo de sistema de detección de plagio")
-sl.write("Hola, esto es una demostración en español de lo que hace mi Trabajo de Final de Grado")
+sl.write("# My Tagger")
+sl.write("Hello, this is a demonstration of the tagging of a text with my own tagger.")
 
-txt = sl.text_area("Introduce el texto que deseas buscar")
+txt = sl.text_area("Introduce the text you want to POS tag.")
 
 if txt:
-    sl.write("Ahora vamos a etiquetar estas palabras con mi etiquetador.")
+    sl.write("Now we are going to tag the text:")
 
     tokens_texto=nltk.word_tokenize(txt)
 
