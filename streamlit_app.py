@@ -11,7 +11,7 @@ sl.write("Hello, this is a demonstration of text tagging with my own tagger.")
 txt = sl.text_area("Introduce the text you want to POS tag.")
 
 sl.write("You can use the following text as an example (just copy-paste above):")
-sl.write("The dog barks at the car.")
+sl.write("Sandy walks through the street")
 
 
 if txt:
