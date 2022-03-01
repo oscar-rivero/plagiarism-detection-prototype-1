@@ -2,6 +2,8 @@ import nltk
 import streamlit as sl
 from modulo_cargar_tagger import tagger
 
+nltk.download('punkt')
+
 sl.write("# Prototipo de sistema de detección de plagio")
 sl.write("Hola, esto es una demostración en español de lo que hace mi Trabajo de Final de Grado")
 
