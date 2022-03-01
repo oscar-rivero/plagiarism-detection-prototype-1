@@ -17,7 +17,7 @@ sl.write("Sandy walks through the street")
 if txt:
     sl.write("Now we are going to tag the text:")
 
-    tokens_texto=nltk.word_tokenize(txt)
+    tokens_texto=nltk.word_tokenize(txt.lower())
 
     tags_texto=tagger.tag(tokens_texto)
 
