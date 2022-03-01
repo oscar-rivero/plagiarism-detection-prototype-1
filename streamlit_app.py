@@ -20,7 +20,7 @@ if txt:
 
     tags_texto=tagger.tag(tokens_texto)
 
-    sl.write("El output:")
+    sl.write("The output:")
     sl.write(tags_texto)
     
 
